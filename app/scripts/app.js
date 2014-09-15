@@ -10,7 +10,7 @@ angular.module('flickrReaderApp', [
   'anim-in-out'
 ])
 
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(['$stateProvider','$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.when("", "/flickr/list");
 
@@ -31,7 +31,7 @@ angular.module('flickrReaderApp', [
           dataService: 'dataService',
 
           // service is executed by ui-router and value returned to controller as topicsnew
-          topics: function (dataService) {
+          topics: ['dataService', function (dataService) {
             return dataService.
               getData().
               then(function(data){
@@ -39,7 +39,7 @@ angular.module('flickrReaderApp', [
               }, function(err){
                 console.log(err)
               });
-          }
+          }]
         }
       })
 
@@ -61,19 +61,19 @@ angular.module('flickrReaderApp', [
 
         // resolve data so user can access detail state via outside url
         resolve: {
-          data: function(topics){
+          data: ['topics', function(topics){
             return topics.data;
-          }
+          }]
         },
 
-        controller: function ($scope, $stateParams, $state, dataService, data) {
+        controller: ['$scope', '$stateParams', '$state', 'data', function ($scope, $stateParams, $state, data) {
           $scope.item = data.items[$stateParams.id];
 
           // when url is unknown or item does not exist jump to flickr.list state
           if (!$scope.item){$state.go("flickr.list")}
-        },
+        }],
 
-        onEnter: function ($location, $anchorScroll) {
+        onEnter: ['$location', '$anchorScroll', function ($location, $anchorScroll) {
           console.log("enter state flickr.detail");
 
           // set position anchorScroll is supposed to jump to
@@ -81,6 +81,6 @@ angular.module('flickrReaderApp', [
 
           // call $anchorScroll() to jump to top of detail page
           $anchorScroll();
-        }
+        }]
       })
-  })
+  }])

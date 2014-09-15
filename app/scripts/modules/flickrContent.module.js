@@ -2,7 +2,7 @@
 
 angular.module('flickrReaderApp')
 
-  .service('dataService', function ($http) {
+  .service('dataService', ['$http', function ($http) {
     this.getData = function () {
 
       // $http() returns a $promise that we are picking up in the ui-state configuration resolve
@@ -17,10 +17,10 @@ angular.module('flickrReaderApp')
         }
       });
     }
-  })
+  }])
 
-  .controller('flickrContentCtrl', function ($scope, topics) {
+  .controller('flickrContentCtrl', ['$scope', 'topics', function ($scope, topics) {
 
     // our controller is just taking care of business logic and making data available
     $scope.topics = topics.data;
-  });
+  }]);

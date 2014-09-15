@@ -20,11 +20,11 @@ angular.module('flickrReaderApp')
       restrict: 'A',
 
       // check if item has a title - otherwise put "Unnamed"
-      controller: function ($scope) {
+      controller: ['$scope', function ($scope) {
         if ($scope.item && ($scope.item.title === "")) {
           $scope.item.title = "Unnamed"
         };
-      },
+      }],
       template: '{{ item.title }}'
     };
   })
@@ -34,10 +34,10 @@ angular.module('flickrReaderApp')
       restrict: 'E',
 
       // clean up author name with regex
-      controller: function ($scope) {
+      controller: ['$scope', function ($scope) {
         var patt = /\((.*)\)/;
         $scope.authorName = patt.exec($scope.item.author)[1];
-      },
+      }],
       template: '<a ng-href="https://www.flickr.com/photos/{{ item.author_id }}"> <u> {{ authorName }}</u></a>'
     };
   })
@@ -47,10 +47,10 @@ angular.module('flickrReaderApp')
       restrict: 'E',
 
       // prepare publication date with moment.js
-      controller: function ($scope) {
+      controller: ['$scope', function ($scope) {
         var isoDate = $scope.item.published;
         $scope.publicationDate = moment(isoDate).format('Do MMM YYYY [at] HH[:]mm');
-      },
+      }],
       template: '<span>Published: {{ publicationDate }}</span>'
     };
   })
@@ -67,9 +67,9 @@ angular.module('flickrReaderApp')
       restrict: 'E',
 
       // split up tags string and provide array to repeat over and make links
-      controller: function ($scope) {
+      controller: ['$scope', function ($scope) {
         $scope.tags = $scope.item.tags.split(" ");
-      },
+      }],
       template: '<span ng-repeat="tag in tags"><a ng-href="https://www.flickr.com/photos/tags/{{ tag }}"><u>{{ tag }}</u></a></span>'
     };
   })
