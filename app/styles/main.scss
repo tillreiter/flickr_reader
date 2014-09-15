@@ -1,0 +1,230 @@
+$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
+
+//define new small breakpoint according to wireframes
+$screen-sm: 800px;
+$screen-sm-min: $screen-sm;
+$screen-tablet: $screen-sm-min;
+
+//import sass and anim-in-out so all variables are accessible and get precompiled together
+@import 'sass-bootstrap/lib/bootstrap';
+@import 'angular-ui-router-anim-in-out/css/_anim-in-out';
+
+// mixins
+// center element within its parent
+@mixin center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// truncate and set display block
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+// Top id set on index.html to prevent having resize issues when switching between states because of anim-in-out bug
+#top {
+  margin-top: -2em;
+}
+
+// Space out content a bit
+body {
+    padding-top: 2em;
+    padding-bottom: 2em;
+    font-size: 125%;
+}
+.row {
+  margin: 0;
+}
+
+// Everything gets side spacing for mobile first views
+#header,
+.feed,
+#footer {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+// Custom page header
+#header h3 {
+    margin-top: 1em;
+    margin-bottom: 0;
+    line-height: 2em;
+    padding-bottom: 0;
+    text-align: center;
+}
+
+
+// List-Feed styling
+#search-bar {
+  padding: 0;
+  margin-bottom: 1em;
+}
+
+.image-container {
+  position: absolute;
+  padding: 0;
+  overflow: hidden;
+  height: 8em;
+  float: left;
+  width: 12em;
+  background-color: #e0e3e6;
+}
+.feed-picture img {
+  width: auto;
+  max-height: 100%;
+  padding: 0.1em;
+  position: relative;
+  @include center-block;
+}
+
+.feed-text {
+  margin-left: 13em;
+}
+
+.feed-title {
+  margin: 0.5em 0;
+  font-size: 1.3em;
+  @include text-truncate
+}
+
+.author-name-lg {
+  display: none;
+}
+.publication-date {
+  display: block;
+  font-size: 0.8em;
+}
+.author-name-lg, .author-name-sm, .publication-date {
+  margin-right: 1em;
+}
+
+.panel-default {
+  margin: 0;
+  border-radius: 0;
+  position: relative;
+  min-height: 8em;
+}
+
+// Detail view styling
+.detail-title {
+  padding: 0em;
+  font-size: 1.5em;
+}
+
+.back-button {
+  @extend .btn, .btn-default, .btn-block, .btn-xs;
+  float: right;
+  font-size: 0.8em
+}
+
+.tag > span {
+  margin-right: 1.2em;
+  display: inline-block;
+  &:first-child {
+    margin-left: 0.9em;
+  }
+}
+
+.detail-content > img, .detail-content > div {
+  margin-top: 1.5em;
+}
+
+//animation for searching through ng-repeated items
+.panel-default.ng-enter,
+.panel-default.ng-leave,
+.panel-default.ng-move {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+
+.panel-default.ng-enter,
+.panel-default.ng-move {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.panel-default.ng-move.ng-move-active,
+.panel-default.ng-enter.ng-enter-active {
+  opacity: 1;
+  height: 8em;
+}
+
+.panel-default.ng-leave {
+  opacity: 1;
+  overflow: hidden;
+}
+
+.panel-default.ng-leave.ng-leave-active {
+  opacity: 0;
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+// Custom page footer
+#footer {
+  padding-top: 1em;
+  color: #777;
+  text-align: center;
+}
+
+// media query for screens above 800px
+@media screen and (min-width: $screen-sm) {
+  .container {
+    max-width: 1280px;
+  }
+
+  // Center header and include border-bottom
+  #header {
+    margin-bottom: 1em;
+    border-bottom: 0.1em solid #e5e5e5;
+    padding: 0;
+    h3 {
+      text-align: left;
+    }
+  }
+
+  .feed-title {
+    margin: 0.6em 0em;
+    font-size: 1.7em;
+    @include text-truncate
+  }
+
+  // Rearrange author name and publication date on large devices
+  .author-name-lg {
+    display: inline;
+  }
+  .author-name-sm {
+    display: none;
+  }
+  .publication-date {
+    display: inline;
+    font-size: 1em;
+  }
+
+  // Detail view customization
+  .detail-title {
+    padding: 0em;
+    font-size: 2em;
+  }
+  .detail-image {
+    padding: 0;
+  }
+  .back-button {
+    // !important necessary because SASS ist not handling @extend properly in media queries
+    font-size: 1.5em !important;
+  }
+
+  // Pull footer to the right
+  #footer {
+    padding-right: 0;
+    text-align: right;
+  }
+}
